@@ -1,0 +1,11 @@
+python-telegram-bot==22.8
+telethon
+pyfiglet
+termcolor
+colorama
+Pillow
+qrcode
+aiohttp
+packaging>=24.0
+pycountry
+pytz
