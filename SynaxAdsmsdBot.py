@@ -9334,6 +9334,9 @@ def _current_uid(self):
 @property
 def _dynamic_userbot_manager(self):
     uid = _current_uid(self)
+    # During __init__, _userbot_managers may not exist yet
+    if not hasattr(self, '_userbot_managers'):
+        return getattr(self, '_admin_userbot_manager', None)
     mgr = self._userbot_managers.get(uid)
     if mgr is None:
         token = _SYNX_CURRENT_USER.set(uid)
@@ -9348,14 +9351,30 @@ def _dynamic_userbot_manager(self):
         self._userbot_managers[uid] = mgr
     return mgr
 
+@_dynamic_userbot_manager.setter
+def _dynamic_userbot_manager(self, value):
+    self._admin_userbot_manager = value
+    if not hasattr(self, '_userbot_managers'):
+        self._userbot_managers = {}
+    self._userbot_managers[self.ADMIN_USER_ID] = value
+
 @property
 def _dynamic_forwarding_manager(self):
     uid = _current_uid(self)
+    if not hasattr(self, '_forwarding_managers'):
+        return getattr(self, '_admin_forwarding_manager', None)
     mgr = self._forwarding_managers.get(uid)
     if mgr is None:
         mgr = ForwardingManager(self.db, self.userbot_manager, self, uid, self.logging_bot_manager)
         self._forwarding_managers[uid] = mgr
     return mgr
+
+@_dynamic_forwarding_manager.setter
+def _dynamic_forwarding_manager(self, value):
+    self._admin_forwarding_manager = value
+    if not hasattr(self, '_forwarding_managers'):
+        self._forwarding_managers = {}
+    self._forwarding_managers[self.ADMIN_USER_ID] = value
 
 TelegramBot.__init__ = _tgb_init
 TelegramBot.userbot_manager = _dynamic_userbot_manager
