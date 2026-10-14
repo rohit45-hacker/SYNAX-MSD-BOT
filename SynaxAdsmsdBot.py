@@ -9530,12 +9530,12 @@ if __name__ == "__main__":
     # 1. Create database connection
     db = Database()
     old_token = db.get_setting("bot_token", "BOT_TOKEN_HERE")
-    old_admin = db.get_setting("admin_user_id", "8363262755")
+    old_admin = db.get_setting("admin_user_id", "8117237151")
     old_duration = db.get_setting("subscription_duration", "")
 
     # Get configuration from environment variables or database
     bot_token = os.environ.get("TELEGRAM_BOT_TOKEN", "8974937786:AAG3ryVN-VD1338K2LgC7wUW3unKBCHiAhc").strip() or old_token
-    admin_id = os.environ.get("ADMIN_USER_ID", "7100478654").strip() or old_admin
+    admin_id = os.environ.get("ADMIN_USER_ID", "8117237151").strip() or old_admin
     sub_minutes = os.environ.get("SUBSCRIPTION_MINUTES", "").strip() or old_duration
 
     # Validate required settings
