@@ -50,6 +50,7 @@ import logging
 import sqlite3
 import json
 import os
+import threading
 import time
 import random
 import pyfiglet
@@ -9539,7 +9540,31 @@ LoggingBotManager.send_log = _send_log_user_only
 # installed before TelegramBot is instantiated.
 
 if __name__ == "__main__":
+    # ---- HEALTH CHECK SERVER (Render ke liye) ----
+    import threading
+    from http.server import HTTPServer, BaseHTTPRequestHandler
+    
+    class HealthHandler(BaseHTTPRequestHandler):
+        def do_GET(self):
+            self.send_response(200)
+            self.send_header('Content-type', 'text/plain')
+            self.end_headers()
+            self.wfile.write(b"Bot is running")
+        def log_message(self, format, *args):
+            pass  # Logs spam na kare
+    
+    def run_health_server():
+        port = int(os.environ.get("PORT", 10000))
+        server = HTTPServer(("0.0.0.0", port), HealthHandler)
+        print(f"[Health] Server running on port {port}")
+        server.serve_forever()
+    
+    # Health server ko background thread mein chalao
+    threading.Thread(target=run_health_server, daemon=True).start()
+    # ---- HEALTH CHECK END ----
+    
     show_banner()
+    # ... baaki existing code ...
 
     # 1. Create database connection
     db = Database()
