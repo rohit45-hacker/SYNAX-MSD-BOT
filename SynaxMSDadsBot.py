@@ -105,7 +105,7 @@ if Version(PTB_VERSION) < Version("22.7"):
 # Normalize all outgoing/editable bot text so no UI can display literal \n\n.
 from telegram import Bot as _msdTelegramBot
 _msd_original_send_message = _msdTelegramBot.send_message
-_msd_original_edit_message_text = _MsdTelegramBot.edit_message_text
+_msd_original_edit_message_text = _msdTelegramBot.edit_message_text
 
 async def _msd_send_message(self, *args, **kwargs):
     if "text" in kwargs:
