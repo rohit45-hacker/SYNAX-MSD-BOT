@@ -9327,11 +9327,6 @@ def _tgb_init(self, bot_token: str, admin_id: int):
     self._admin_forwarding_manager = self.forwarding_manager
     self._userbot_managers = {admin_id: self._admin_userbot_manager}
     self._forwarding_managers = {admin_id: self._admin_forwarding_manager}
-    # Remove shared mutable manager attributes. Properties below select the
-    # manager from the current update context, making concurrent users safe.
-    del self.userbot_manager
-    del self.forwarding_manager
-
 
 def _current_uid(self):
     return _SYNX_CURRENT_USER.get() or self.ADMIN_USER_ID
