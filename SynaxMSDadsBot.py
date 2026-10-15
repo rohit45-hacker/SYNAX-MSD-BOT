@@ -2364,7 +2364,7 @@ class UserbotManager:
                     new_count += 1
                     # Insert new group with is_selected = 1 (selected by default)
                     self.db.execute_query(
-                        "INSERT INTO groups (user_id, chat_id, title, username, chat_type, is_selected) VALUES (?, ?, ?, ?, ?, 1)",
+                        "INSERT INTO groups (user_id, chat_id, title, username, chat_type, is_selected) VALUES (?, ?, ?, ?, ?, 0)",
                         (user_id, chat_id, title, username, chat_type)
                     )
 
